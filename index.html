@@ -13,13 +13,10 @@
   <main class="flex justify-center flex-col items-center p-3 gap-2">
     <h1>Web Share API</h1>
     <div class="flex justify-center flex-col items-center">
-      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Title"
-        id="title" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url" />
       <div class="flex justify-center items-center gap-2">
         <button id="share-text-btn" class="bg-blue-500 text-white p-2 rounded">Share Text!</button>
-        <button id="share-image-btn" class="bg-red-500 text-white p-2 rounded">Share with Image!</button>
         <button id="share-image-btn-2" class="bg-green-500 text-white p-2 rounded">Share image only!</button>
       </div>
       <p class="result"></p>
@@ -42,50 +39,46 @@
 
   shareTextButton.addEventListener('click', async () => {
     try {
+      if (!navigator.share) {
+        throw new Error('This browser does not support web share API')
+      }
+
       const shareData = {
-        title: document.getElementById('title').value,
         text: document.getElementById('text').value,
         url: document.getElementById('url').value
       }
       await navigator.share(shareData)
       resultPara.textContent = 'Text shared successfully'
     } catch (err) {
-      resultPara.textContent = 'Error: ' + err
-    }
-  });
-
-  shareImageButton.addEventListener('click', async () => {
-    try {
-      const image = await fetch('./example-share-image.png');
-      const blob = await image.blob();
-      const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-
-      const shareData = {
-        files: [file]
-      }
-      await navigator.share(shareData)
-      resultPara.textContent = 'Image shared successfully'
-    } catch (err) {
-      resultPara.textContent = 'Error: ' + err
+      resultPara.textContent = err
     }
   });
 
   shareImageButtonTwo.addEventListener('click', async () => {
+    function blobToBase64(blob) {
+      return new Promise((resolve, _) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    if (!navigator.share) {
+      throw new Error('This browser does not support web share API')
+    }
+
     try {
       const image = await fetch('./example-share-image.png');
       const blob = await image.blob();
-      const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+      const base64 = await blobToBase64(blob);
 
       const shareData = {
-        title: document.getElementById('title').value,
-        text: document.getElementById('text').value,
-        url: document.getElementById('url').value,
-        files: [file]
+        image: base64
       }
       await navigator.share(shareData)
       resultPara.textContent = 'Image shared successfully'
     } catch (err) {
-      resultPara.textContent = 'Error: ' + err
+      resultPara.textContent = err
     }
   });
 
