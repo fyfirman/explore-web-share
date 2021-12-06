@@ -11,31 +11,41 @@
 
 <body>
   <main class="flex justify-center flex-col items-center p-3 gap-2">
-    <h1>Web Share API</h1>
+    <h1>Share Text</h1>
     <div class="flex justify-center flex-col items-center">
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url" />
       <div class="flex justify-center items-center gap-2">
         <button id="share-text-btn" class="bg-blue-500 text-white p-2 rounded">Share Text!</button>
-        <button id="share-image-btn-2" class="bg-green-500 text-white p-2 rounded">Share image only!</button>
       </div>
-      <p class="result"></p>
+      <p id="result-text"></p>
       <div class="flex justify-center flex-col items-center mt-2">
-        <button id="clear" class="bg-gray-700 text-white p-2 rounded">Clear</button>
+        <button id="clear-text" class="bg-gray-700 text-white p-2 rounded">Clear</button>
+      </div>
+    </div>
+
+    <h1 class="mt-20">Share Image</h1>
+    <div class="flex justify-center flex-col items-center">
+      <button id="share-image-btn" class="bg-green-500 text-white p-2 rounded">Share image only!</button>
+      <p id="result-image"></p>
+      <div class="flex justify-center flex-col items-center mt-2">
+        <button id="clear-image" class="bg-gray-700 text-white p-2 rounded">Clear</button>
       </div>
     </div>
   </main>
-  <footer class="flex justify-center flex-col items-center">
-    v0.2.1
+  <footer class="flex justify-center flex-col items-center mt-20">
+    v1.0.0
   </footer>
 </body>
 
 <script>
   const shareTextButton = document.getElementById('share-text-btn');
+  const resultText = document.getElementById('result-text');
+  const clearTextButton = document.getElementById('clear-text');
+
   const shareImageButton = document.getElementById('share-image-btn');
-  const shareImageButtonTwo = document.getElementById('share-image-btn-2');
-  const clearButton = document.getElementById('clear');
-  const resultPara = document.querySelector('.result');
+  const resultImage = document.getElementById('result-image');
+  const clearImageButton = document.getElementById('clear-image');
 
   shareTextButton.addEventListener('click', async () => {
     try {
@@ -48,13 +58,13 @@
         url: document.getElementById('url').value
       }
       await navigator.share(shareData)
-      resultPara.textContent = 'Text shared successfully'
+      resultText.textContent = 'Text shared successfully'
     } catch (err) {
-      resultPara.textContent = err
+      resultText.textContent = err
     }
   });
 
-  shareImageButtonTwo.addEventListener('click', async () => {
+  shareImageButton.addEventListener('click', async () => {
     function blobToBase64(blob) {
       return new Promise((resolve, _) => {
         const reader = new FileReader();
@@ -63,11 +73,10 @@
       });
     }
 
-    if (!navigator.share) {
-      throw new Error('This browser does not support web share API')
-    }
-
     try {
+      if (!navigator.share) {
+        throw new Error('This browser does not support web share API')
+      }
       const image = await fetch('./example-share-image.png');
       const blob = await image.blob();
       const base64 = await blobToBase64(blob);
@@ -76,14 +85,18 @@
         url: base64
       }
       await navigator.share(shareData)
-      resultPara.textContent = 'Image shared successfully'
+      resultImage.textContent = 'Image shared successfully'
     } catch (err) {
-      resultPara.textContent = err
+      resultImage.textContent = err
     }
   });
 
-  clearButton.addEventListener('click', () => {
-    resultPara.textContent = ''
+  clearTextButton.addEventListener('click', () => {
+    resultText.textContent = ''
+  })
+
+  clearImageButton.addEventListener('click', () => {
+    resultImage.textContent = ''
   })
 </script>
 
