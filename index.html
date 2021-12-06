@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <title>Explore Web Share API</title>
 </head>
+
 <body>
   Hello world
+
+  <p><button>Share!</button></p>
+  <p class="result"></p>
 </body>
+
+<script>
+  const shareData = {
+    title: 'MDN',
+    text: 'Learn web development on MDN!',
+    url: 'https://developer.mozilla.org'
+  }
+
+  const btn = document.querySelector('button');
+  const resultPara = document.querySelector('.result');
+
+  // Share must be triggered by "user activation"
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.share(shareData)
+      resultPara.textContent = 'MDN shared successfully'
+    } catch (err) {
+      resultPara.textContent = 'Error: ' + err
+    }
+  });
+</script>
+
 </html>
