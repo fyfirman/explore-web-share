@@ -17,21 +17,24 @@
         id="title" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url" />
-      <p><button class="bg-blue-500 text-white p-2 rounded">Share Text!</button></p>
+      <div>
+        <button id="share-text-btn" class="bg-blue-500 text-white p-2 rounded">Share Text!</button>
+        <button id="share-image-btn" class="bg-red-500 text-white p-2 rounded">Share with Image!</button>
+      </div>
       <p class="result"></p>
     </div>
   </main>
   <footer class="flex justify-center flex-col items-center">
-    v0.0.1
+    v0.1.0
   </footer>
 </body>
 
 <script>
-  const btn = document.querySelector('button');
+  const shareTextButton = document.getElementById('share-text-btn');
+  const shareImageButton = document.getElementById('share-image-btn');
   const resultPara = document.querySelector('.result');
 
-  // Share must be triggered by "user activation"
-  btn.addEventListener('click', async () => {
+  shareTextButton.addEventListener('click', async () => {
     try {
       const shareData = {
         title: document.getElementById('title').value,
@@ -39,7 +42,26 @@
         url: document.getElementById('url').value
       }
       await navigator.share(shareData)
-      resultPara.textContent = 'Shared successfully'
+      resultPara.textContent = 'Text shared successfully'
+    } catch (err) {
+      resultPara.textContent = 'Error: ' + err
+    }
+  });
+
+  shareImageButton.addEventListener('click', async () => {
+    try {
+      const image = await fetch('./example-share-image.png');
+      const blob = await image.blob();
+      const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+
+      const shareData = {
+        title: document.getElementById('title').value,
+        text: document.getElementById('text').value,
+        url: document.getElementById('url').value,
+        files: [file]
+      }
+      await navigator.share(shareData)
+      resultPara.textContent = 'Image shared successfully'
     } catch (err) {
       resultPara.textContent = 'Error: ' + err
     }
