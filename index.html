@@ -10,17 +10,23 @@
 </head>
 
 <body>
-  Hello world
-
-  <p><button>Share!</button></p>
-  <p class="result"></p>
+  <main class="flex justify-center flex-col items-center p-3 gap-2">
+    <h1>Web Share API</h1>
+    <div class="flex justify-center flex-col items-center">
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Title" id="title"/>
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text"/>
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url"/>
+      <p><button class="bg-blue-500 text-white p-2 rounded">Share Text!</button></p>
+      <p class="result"></p>
+    </div>
+  </main>
 </body>
 
 <script>
   const shareData = {
-    title: 'MDN',
-    text: 'Learn web development on MDN!',
-    url: 'https://developer.mozilla.org'
+    title: document.getElementById('title').value,
+    text: document.getElementById('text').value,
+    url: document.getElementById('url').value
   }
 
   const btn = document.querySelector('button');
