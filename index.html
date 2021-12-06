@@ -20,6 +20,7 @@
       <div>
         <button id="share-text-btn" class="bg-blue-500 text-white p-2 rounded">Share Text!</button>
         <button id="share-image-btn" class="bg-red-500 text-white p-2 rounded">Share with Image!</button>
+        <button id="share-image-btn-2" class="bg-green-500 text-white p-2 rounded">Share with Image!</button>
       </div>
       <p class="result"></p>
     </div>
@@ -32,6 +33,7 @@
 <script>
   const shareTextButton = document.getElementById('share-text-btn');
   const shareImageButton = document.getElementById('share-image-btn');
+  const shareImageButtonTwo = document.getElementById('share-image-btn-2');
   const resultPara = document.querySelector('.result');
 
   shareTextButton.addEventListener('click', async () => {
@@ -49,6 +51,22 @@
   });
 
   shareImageButton.addEventListener('click', async () => {
+    try {
+      const image = await fetch('./example-share-image.png');
+      const blob = await image.blob();
+      const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+
+      const shareData = {
+        files: [file]
+      }
+      await navigator.share(shareData)
+      resultPara.textContent = 'Image shared successfully'
+    } catch (err) {
+      resultPara.textContent = 'Error: ' + err
+    }
+  });
+
+  shareImageButtonTwo.addEventListener('click', async () => {
     try {
       const image = await fetch('./example-share-image.png');
       const blob = await image.blob();
