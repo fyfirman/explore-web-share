@@ -13,9 +13,10 @@
   <main class="flex justify-center flex-col items-center p-3 gap-2">
     <h1>Web Share API</h1>
     <div class="flex justify-center flex-col items-center">
-      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Title" id="title"/>
-      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text"/>
-      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url"/>
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Title"
+        id="title" />
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text" />
+      <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url" />
       <p><button class="bg-blue-500 text-white p-2 rounded">Share Text!</button></p>
       <p class="result"></p>
     </div>
@@ -23,11 +24,8 @@
 </body>
 
 <script>
-  const shareData = {
-    title: document.getElementById('title').value,
-    text: document.getElementById('text').value,
-    url: document.getElementById('url').value
-  }
+
+
 
   const btn = document.querySelector('button');
   const resultPara = document.querySelector('.result');
@@ -35,8 +33,13 @@
   // Share must be triggered by "user activation"
   btn.addEventListener('click', async () => {
     try {
+      const shareData = {
+        title: document.getElementById('title').value,
+        text: document.getElementById('text').value,
+        url: document.getElementById('url').value
+      }
       await navigator.share(shareData)
-      resultPara.textContent = 'MDN shared successfully'
+      resultPara.textContent = 'Shared successfully'
     } catch (err) {
       resultPara.textContent = 'Error: ' + err
     }
