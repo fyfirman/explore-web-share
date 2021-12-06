@@ -17,12 +17,15 @@
         id="title" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="Text" id="text" />
       <input class="p-2 border-2 border-light-blue-500 border-opacity-100 rounded mb-2" placeholder="URL" id="url" />
-      <div>
+      <div class="flex justify-center items-center gap-2">
         <button id="share-text-btn" class="bg-blue-500 text-white p-2 rounded">Share Text!</button>
         <button id="share-image-btn" class="bg-red-500 text-white p-2 rounded">Share with Image!</button>
         <button id="share-image-btn-2" class="bg-green-500 text-white p-2 rounded">Share image only!</button>
       </div>
       <p class="result"></p>
+      <div class="flex justify-center flex-col items-center mt-2">
+        <button id="clear" class="bg-gray-700 text-white p-2 rounded">Clear</button>
+      </div>
     </div>
   </main>
   <footer class="flex justify-center flex-col items-center">
@@ -34,6 +37,7 @@
   const shareTextButton = document.getElementById('share-text-btn');
   const shareImageButton = document.getElementById('share-image-btn');
   const shareImageButtonTwo = document.getElementById('share-image-btn-2');
+  const clearButton = document.getElementById('clear');
   const resultPara = document.querySelector('.result');
 
   shareTextButton.addEventListener('click', async () => {
@@ -84,6 +88,10 @@
       resultPara.textContent = 'Error: ' + err
     }
   });
+
+  clearButton.addEventListener('click', () => {
+    resultPara.textContent = ''
+  })
 </script>
 
 </html>
