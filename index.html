@@ -32,9 +32,18 @@
         <button id="clear-image" class="bg-gray-700 text-white p-2 rounded">Clear</button>
       </div>
     </div>
+    
+    <h1 class="mt-20">Download Image</h1>
+    <div class="flex justify-center flex-col items-center">
+      <button id="download-btn" class="bg-green-500 text-white p-2 rounded">Download image</button>
+      <p id="result-download"></p>
+      <div class="flex justify-center flex-col items-center mt-2">
+        <button id="clear-download" class="bg-gray-700 text-white p-2 rounded">Clear</button>
+      </div>
+    </div>
   </main>
   <footer class="flex justify-center flex-col items-center mt-20">
-    v1.0.2
+    v1.1.0
   </footer>
 </body>
 
@@ -46,6 +55,10 @@
   const shareImageButton = document.getElementById('share-image-btn');
   const resultImage = document.getElementById('result-image');
   const clearImageButton = document.getElementById('clear-image');
+
+  const downloadButton = document.getElementById('download-btn');
+  const resultDownload = document.getElementById('result-download');
+  const clearDownloadButton = document.getElementById('clear-download');
 
   shareTextButton.addEventListener('click', async () => {
     try {
@@ -92,6 +105,20 @@
       resultImage.textContent = err
     }
   });
+  const image = await fetch('./example-share-image.png');
+  const blob = await image.blob();
+  const base64 = await blobToBase64(blob);
+
+  downloadButton.addEventListener('click', async () => {
+    try {
+      const downloadData = {
+        base64,
+        filename: 'example.png'
+      }
+    } catch (error) {
+      resultDownload.textContent = error;
+    }
+  })
 
   clearTextButton.addEventListener('click', () => {
     resultText.textContent = ''
