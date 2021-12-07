@@ -43,7 +43,7 @@
     </div>
   </main>
   <footer class="flex justify-center flex-col items-center mt-20">
-    v1.1.4
+    v1.1.5
   </footer>
 </body>
 
@@ -98,7 +98,7 @@
         saveToFiles: true
       }
       if (!navigator.share) {
-        await injected.share(shareData)
+        await share(shareData)
       } else {
         const fileName = 'example-share.png';
         const filesArray = [
@@ -131,9 +131,9 @@
 
       const downloadData = {
         base64,
-        filename
+        filename: fileName
       }
-      await injected.download(downloadData);
+      await download(downloadData);
     } catch (error) {
       resultDownload.textContent = error;
     }
