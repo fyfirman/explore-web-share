@@ -34,7 +34,7 @@
     </div>
   </main>
   <footer class="flex justify-center flex-col items-center mt-20">
-    v1.0.1
+    v1.0.2
   </footer>
 </body>
 
@@ -83,7 +83,8 @@
 
       const shareData = {
         url: base64,
-        type: 'image/png'
+        type: 'image/png',
+        saveToFiles: true
       }
       await navigator.share(shareData)
       resultImage.textContent = 'Image shared successfully'
