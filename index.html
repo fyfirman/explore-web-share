@@ -82,7 +82,8 @@
       const base64 = await blobToBase64(blob);
 
       const shareData = {
-        url: base64
+        url: base64,
+        type: 'image/png'
       }
       await navigator.share(shareData)
       resultImage.textContent = 'Image shared successfully'
