@@ -106,6 +106,18 @@
   });
 
   downloadButton.addEventListener('click', async () => {
+    function isIos() {
+      return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform)
+        || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
+
     try {
       const image = await fetch('./example-share-image.png');
       const blob = await image.blob();
@@ -116,7 +128,17 @@
         base64,
         filename: fileName
       }
-      await download(downloadData);
+
+      if (!isIos()) {
+        await download(downloadData);
+      } else {
+        const shareData = {
+          url: base64,
+          type: 'image/png',
+          saveToFiles: true
+        }
+        await share(shareData)
+      }
     } catch (error) {
       resultDownload.textContent = error;
     }
