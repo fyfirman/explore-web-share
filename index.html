@@ -97,24 +97,8 @@
         type: 'image/png',
         saveToFiles: true
       }
-      if (!navigator.share) {
-        await share(shareData)
-      } else {
-        const fileName = 'example-share.png';
-        const filesArray = [
-          new File(
-            [blob],
-            fileName,
-            {
-              type: "image/png",
-              lastModified: new Date().getTime()
-            }
-          )
-        ];
-        navigator.share({
-          files: filesArray,
-        })
-      }
+      await share(shareData)
+
       resultImage.textContent = 'Image shared successfully';
     } catch (err) {
 
