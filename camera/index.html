@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Explore Camera on Web</title>
+  </head>
+
+  <body class="">
+    <main class="flex justify-center flex-col items-center gap-2">
+      <h1 class="mt-4 font-bold text-lg">Explore Camera on Web</h1>
+      <div class="px-2 w-screen">
+        <video autoplay="true" id="cameraOnWebview" class="rounded-md w-full"></video>
+      </div>
+      <div id="logger" class="w-full p-2 flex-col">
+        <h2 class="font-semibold mb-2">Logger</h2>
+        <!-- <span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
+          Error: permission not found
+        </span> -->
+      </div>
+    </main>
+    <footer class="flex justify-center flex-col items-center mt-20">
+      v0.1.0
+    </footer>
+  </body>
+
+  <script src="camera.js"></script>
+</html>
