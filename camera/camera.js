@@ -59,5 +59,11 @@ window.addEventListener('message', (message) => {
         cameraPermission: ${message.data.cameraPermission}
       </span>`
     );
+  }else {
+    logger.insertAdjacentHTML('afterbegin',
+      `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
+        message.data: ${JSON.stringify(message.data)}
+      </span>`
+    );
   };
 });
