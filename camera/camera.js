@@ -46,23 +46,24 @@ button.addEventListener('click', async () => {
   }
 });
 
-document.addEventListener('message', (message) => {
-  if(message.data.error){
+document.addEventListener('message', (res) => {
+  const message = JSON.parse(res.data);
+  if(message.error){
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-        Error: ${message.data.error}
+        Error: ${message.error}
       </span>`
     );
-  }else if(message.data.cameraPermission){
+  }else if(message.cameraPermission){
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-        cameraPermission: ${message.data.cameraPermission}
+        cameraPermission: ${message.cameraPermission}
       </span>`
     );
   }else {
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-        message.data: ${JSON.stringify(message.data)}
+        message: ${JSON.stringify(message)}
       </span>`
     );
   };
