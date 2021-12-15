@@ -19,7 +19,18 @@ if (navigator.mediaDevices.getUserMedia) {
 }
 
 if(requestCameraPermissionAndroid){
+  logger.insertAdjacentHTML('beforeend',
+    `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
+      Log: requestCameraPermissionAndroid is executed
+    </span>`
+  );
   requestCameraPermissionAndroid();
+}else {
+  logger.insertAdjacentHTML('beforeend',
+    `<span class="flex flex-col bg-yellow-50 p-2 rounded-md text-yellow-600 font-mono text-xs font-medium mb-2">
+      Warn: requestCameraPermissionAndroid is not found
+    </span>`
+  );
 }
 
 window.addEventListener('message', (message) => {
