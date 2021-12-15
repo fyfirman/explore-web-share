@@ -1,5 +1,6 @@
 var cameraElements = document.getElementById('cameraOnWebview');
 var logger = document.getElementById('logger');
+var requestCameraPermissionAndroid;
 
 if (navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices
@@ -18,7 +19,7 @@ if (navigator.mediaDevices.getUserMedia) {
     })
 }
 
-if(requestCameraPermissionAndroid){
+if(!!requestCameraPermissionAndroid){
   logger.insertAdjacentHTML('beforeend',
     `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
       Log: requestCameraPermissionAndroid is executed
