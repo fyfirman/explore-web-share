@@ -46,7 +46,7 @@ button.addEventListener('click', async () => {
   }
 });
 
-window.addEventListener('message', (message) => {
+document.addEventListener('message', (message) => {
   if(message.data.error){
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
