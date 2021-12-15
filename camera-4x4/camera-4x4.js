@@ -6,6 +6,8 @@ if (navigator.mediaDevices.getUserMedia) {
     .then(function (stream) {
       [...cameraElements].forEach(function(element){
         element.srcObject = stream;
+        element.setAttribute('muted', '');
+        element.setAttribute('playsinline', '');
       });
     })
     .catch(function (e) {
