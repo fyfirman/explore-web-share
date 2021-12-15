@@ -37,8 +37,6 @@ const request = async () => {
   }
 }
 
-request();
-
 button.addEventListener('click', async () => {
   try {
     await request();
@@ -46,25 +44,31 @@ button.addEventListener('click', async () => {
   }
 });
 
-document.addEventListener('message', (res) => {
+const messageHandler = (res) => {
   const message = JSON.parse(res.data);
   if(message.error){
+    // Handle if error
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
         Error: ${message.error}
       </span>`
     );
-  }else if(message.cameraPermission){
+  } else if(message.cameraPermission){
+    // cameraPermission : 'granted' | 'unavailable' | 'denied' | 'blocked' | 'not_android'
     logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
+      `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
         cameraPermission: ${message.cameraPermission}
       </span>`
     );
   }else {
+    // just for debugging
     logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-        message: ${JSON.stringify(message)}
+      `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
+        message: ${message}
       </span>`
     );
   };
-});
+}
+
+document.addEventListener('message', messageHandler);
+window.addEventListener('message', messageHandler);
