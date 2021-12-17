@@ -20,7 +20,7 @@ if (navigator.mediaDevices.getUserMedia) {
     })
 }
 
-const request = async () => {
+button.addEventListener('click', async () => {
   try {
     await requestCameraPermissionAndroid();
     logger.insertAdjacentHTML('afterbegin',
@@ -34,13 +34,6 @@ const request = async () => {
         Warn: ${error.message}
       </span>`
     );
-  }
-}
-
-button.addEventListener('click', async () => {
-  try {
-    await request();
-  } catch (error) {
   }
 });
 
