@@ -62,7 +62,6 @@ const messageHandler = (res) => {
   } else if(message.openAppSetting){
     // openAppSetting : 'success' | 'failed'
     if(message.openAppSetting === 'success'){
-      document.location.reload(true);
       logger.insertAdjacentHTML('afterbegin',
         `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
           openAppSetting: ${message.openAppSetting}
