@@ -3,6 +3,15 @@ var logger = document.getElementById('logger');
 var button = document.getElementById('button');
 var openSettingButton = document.getElementById('open-setting-button');
 var requestCameraPermissionAndroid;
+
+const writeLog = (message, label = 'message', color = 'green') => {
+  logger.insertAdjacentHTML('afterbegin',
+  `<span class="flex flex-col bg-${color}-50 p-2 rounded-md text-${color}-600 font-mono text-xs font-medium mb-2">
+    ${label}: ${message}
+  </span>`
+  );
+}
+
 var startCamera = function (){
   if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
@@ -12,12 +21,8 @@ var startCamera = function (){
         cameraElements.setAttribute('muted', '');
         cameraElements.setAttribute('playsinline', '');
       })
-      .catch(function (e) {
-        logger.insertAdjacentHTML('afterbegin',
-          `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-            Error (navigator.mediaDevices): ${e.message}
-          </span>`
-        );
+      .catch(function (error) {
+        writeLog(error.message, 'Error', 'red');
       })
   }
 }
@@ -31,12 +36,9 @@ button.addEventListener('click', async () => {
         Log: requestCameraPermissionAndroid is executed
       </span>`
     );
+    writeLog('requestCameraPermissionAndroid is executed', 'log');
   } catch (error) {
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-yellow-50 p-2 rounded-md text-yellow-600 font-mono text-xs font-medium mb-2">
-        Warn: ${error.message}
-      </span>`
-    );
+    writeLog(error.message, 'Error', 'red');
   }
 });
 
@@ -53,17 +55,9 @@ openSettingButton.addEventListener('click', async () => {
 })
 
 
-var lastAppState = 'active';
+let lastAppState = 'active';
 
 startCamera();
-
-const writeLog = (message, label = 'message', color = 'green') => {
-  logger.insertAdjacentHTML('afterbegin',
-  `<span class="flex flex-col bg-${color}-50 p-2 rounded-md text-${color}-600 font-mono text-xs font-medium mb-2">
-    ${label}: ${message}
-  </span>`
-);
-}
 
 const messageHandler = (res) => {
   const message = JSON.parse(res.data);
