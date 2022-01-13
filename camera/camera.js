@@ -51,6 +51,7 @@ let lastAppState = 'active';
 startCamera();
 
 const messageHandler = (res) => {
+  writeLog(`${res.data}`, 'log');
   const message = JSON.parse(res.data);
   if(message.cameraPermission){
     // cameraPermission : 'granted' | 'unavailable' | 'denied' | 'blocked' | 'not_android'
