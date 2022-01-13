@@ -42,7 +42,7 @@ openSettingButton.addEventListener('click', async () => {
     await openAppSetting();
   } catch (error) {
     writeLog(error.message, 'Error', 'red');
-``}
+  }
 })
 
 
