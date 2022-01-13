@@ -11,6 +11,7 @@ const writeLog = (message, label = 'message', color = 'green') => {
   </span>`
   );
 }
+writeLog('Application start', 'log', 'yellow');
 
 var startCamera = function (){
   if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
