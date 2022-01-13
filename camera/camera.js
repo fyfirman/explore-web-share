@@ -31,12 +31,7 @@ var startCamera = function (){
 button.addEventListener('click', async () => {
   try {
     await requestCameraPermissionAndroid();
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
-        Log: requestCameraPermissionAndroid is executed
-      </span>`
-    );
-    writeLog('requestCameraPermissionAndroid is executed', 'log');
+    writeLog('requestCameraPermissionAndroid is executed', 'log', 'yellow');
   } catch (error) {
     writeLog(error.message, 'Error', 'red');
   }
@@ -46,12 +41,7 @@ openSettingButton.addEventListener('click', async () => {
   try {
     await openAppSetting();
   } catch (error) {
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-yellow-50 p-2 rounded-md text-yellow-600 font-mono text-xs font-medium mb-2">
-        Warn: ${error.message}
-      </span>`
-    );
-  }
+    writeLog(error.message, 'Error', 'red');
 })
 
 
@@ -74,8 +64,11 @@ const messageHandler = (res) => {
     }
   } else if(message.appState){
     // appState : 'active' | 'background' | 'inactive' | 'unknown' | 'extension'
+    writeLog(message.appState, 'appState');
     if(appState === 'active' && lastAppState === 'background'){
+      writeLog(`startCamera is executed"`, 'log', 'yellow');
       startCamera();
+      writeLog(`startCamera is done"`, 'log', 'yellow');
     }
     
     writeLog(`change lastAppState "${lastAppState}" to "${message.appState}"`, 'log', 'yellow');
