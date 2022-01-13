@@ -3,23 +3,25 @@ var logger = document.getElementById('logger');
 var button = document.getElementById('button');
 var openSettingButton = document.getElementById('open-setting-button');
 var requestCameraPermissionAndroid;
-
-if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then(function (stream) {
-      cameraElements.srcObject = stream;
-      cameraElements.setAttribute('muted', '');
-      cameraElements.setAttribute('playsinline', '');
-    })
-    .catch(function (e) {
-      logger.insertAdjacentHTML('afterbegin',
-        `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-          Error (navigator.mediaDevices): ${e.message}
-        </span>`
-      );
-    })
+var startCamera = function (){
+  if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(function (stream) {
+        cameraElements.srcObject = stream;
+        cameraElements.setAttribute('muted', '');
+        cameraElements.setAttribute('playsinline', '');
+      })
+      .catch(function (e) {
+        logger.insertAdjacentHTML('afterbegin',
+          `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
+            Error (navigator.mediaDevices): ${e.message}
+          </span>`
+        );
+      })
+  }
 }
+
 
 button.addEventListener('click', async () => {
   try {
@@ -50,44 +52,46 @@ openSettingButton.addEventListener('click', async () => {
   }
 })
 
+
+var lastAppState = 'active';
+
+startCamera();
+
+const writeLog = (message, label = 'message', color = 'green') => {
+  logger.insertAdjacentHTML('afterbegin',
+  `<span class="flex flex-col bg-${color}-50 p-2 rounded-md text-${color}-600 font-mono text-xs font-medium mb-2">
+    ${label}: ${message}
+  </span>`
+);
+}
+
 const messageHandler = (res) => {
   const message = JSON.parse(res.data);
   if(message.cameraPermission){
     // cameraPermission : 'granted' | 'unavailable' | 'denied' | 'blocked' | 'not_android'
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
-        cameraPermission: ${message.cameraPermission}
-      </span>`
-    );
+    writeLog(message.cameraPermission, 'cameraPermission');
+    
   } else if(message.openAppSetting){
     // openAppSetting : 'success' | 'failed'
     if(message.openAppSetting === 'success'){
-      logger.insertAdjacentHTML('afterbegin',
-        `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
-          openAppSetting: ${message.openAppSetting}
-        </span>`
-      );
+      writeLog(message.openAppSetting, 'openAppSetting');
     } else {
-      logger.insertAdjacentHTML('afterbegin',
-        `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-          Error (openAppSetting): ${message.error}
-        </span>`
-      );
+      writeLog(message.error, 'Error (openAppSetting)', 'red');
     }
+  } else if(message.appState){
+    // appState : 'active' | 'background' | 'inactive' | 'unknown' | 'extension'
+    if(appState === 'active' && lastAppState === 'background'){
+      startCamera();
+    }
+    
+    writeLog(`change lastAppState "${lastAppState}" to "${message.appState}"`, 'log', 'yellow');
+    lastAppState = message.appState;
   } else if(message.error){
     // Handle if error
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-red-50 p-2 rounded-md text-red-600 font-mono text-xs font-medium mb-2">
-        Error: ${message.error}
-      </span>`
-    );
+    writeLog(message.error, 'Error', 'red');
   } else {
     // just for debugging
-    logger.insertAdjacentHTML('afterbegin',
-      `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
-        message: ${JSON.stringify(message)}
-      </span>`
-    );
+    writeLog(JSON.stringify(message), 'message', 'yellow');
   };
 }
 
