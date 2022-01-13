@@ -85,7 +85,7 @@ const messageHandler = (res) => {
     // just for debugging
     logger.insertAdjacentHTML('afterbegin',
       `<span class="flex flex-col bg-green-50 p-2 rounded-md text-green-600 font-mono text-xs font-medium mb-2">
-        message: ${message}
+        message: ${JSON.stringify(message)}
       </span>`
     );
   };
