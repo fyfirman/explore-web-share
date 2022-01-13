@@ -25,6 +25,8 @@ var startCamera = function (){
       .catch(function (error) {
         writeLog(error.message, 'Error', 'red');
       })
+  } else {
+    writeLog('navigator.mediaDevices.getUserMedia is not defined', 'Error', 'red');
   }
 }
 
@@ -52,7 +54,6 @@ let lastAppState = 'active';
 startCamera();
 
 const messageHandler = (res) => {
-  writeLog(`${res.data}`, 'log');
   const message = JSON.parse(res.data);
   if(message.cameraPermission){
     // cameraPermission : 'granted' | 'unavailable' | 'denied' | 'blocked' | 'not_android'
