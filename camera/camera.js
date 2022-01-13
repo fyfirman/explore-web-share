@@ -68,11 +68,10 @@ const messageHandler = (res) => {
     }
   } else if(message.appState){
     // appState : 'active' | 'background' | 'inactive' | 'unknown' | 'extension'
-    writeLog(message.appState, 'appState');
     if(message.appState === 'active' && (lastAppState === 'background' || lastAppState === 'inactive')){
-      writeLog(`startCamera is executed"`, 'log', 'yellow');
+      writeLog(`startCamera is executed`, 'log', 'yellow');
       startCamera();
-      writeLog(`startCamera is done"`, 'log', 'yellow');
+      writeLog(`startCamera is done`, 'log', 'yellow');
     }
     
     writeLog(`change lastAppState "${lastAppState}" to "${message.appState}"`, 'log', 'yellow');
