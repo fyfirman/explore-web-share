@@ -50,6 +50,7 @@ openSettingButton.addEventListener('click', async () => {
 
 
 let lastAppState = 'active';
+let cameraPermission = 'denied';
 
 startCamera();
 
@@ -68,7 +69,7 @@ const messageHandler = (res) => {
     }
   } else if(message.appState){
     // appState : 'active' | 'background' | 'inactive' | 'unknown' | 'extension'
-    if(message.appState === 'active' && (lastAppState === 'background' || lastAppState === 'inactive')){
+    if(message.appState === 'active' && (lastAppState === 'background' || lastAppState === 'inactive') && cameraPermission === 'granted'){
       writeLog(`startCamera is executed`, 'log', 'yellow');
       startCamera();
       writeLog(`startCamera is done`, 'log', 'yellow');
